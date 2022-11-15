@@ -49,7 +49,10 @@ else:
     output.next_page()
     print("References to selected view found in these views:")
     for ref in refs:
-        print("\t\t{0}".format(ref.get_Parameter(DB.BuiltInParameter.SECTION_PARENT_VIEW_NAME).AsValueString()))
+        parent_view_name = ref.get_Parameter(DB.BuiltInParameter.SECTION_PARENT_VIEW_NAME).AsValueString()
+        if parent_view_name == "<none>":
+            parent_view_name = str(doc.GetElement(ref.OwnerViewId).Name)
+        print("\t\t{0}".format(parent_view_name))
 
     newView = pyrevit.forms.select_views(
             title="Select View to Reference",
